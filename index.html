@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Andrew M. Diggs | Ed-Tech Consultant & Christ-Centered Education Officer</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --bg-primary: #0a0a0f;
+            --bg-secondary: #12121a;
+            --bg-card: #1a1a2e;
+            --bg-card-hover: #22223a;
+            --accent: #6c63ff;
+            --accent-light: #8b83ff;
+            --accent-glow: rgba(108, 99, 255, 0.3);
+            --text-primary: #e8e8f0;
+            --text-secondary: #a0a0b8;
+            --text-muted: #6a6a80;
+            --border: #2a2a3e;
+            --gradient-1: linear-gradient(135deg, #6c63ff, #e863ff);
+            --gradient-2: linear-gradient(135deg, #6c63ff, #63b3ff);
+            --success: #4ade80;
+            --gold: #fbbf24;
+            --radius: 16px;
+            --radius-sm: 8px;
+        }
+
+        html { scroll-behavior: smooth; scrollbar-width: thin; scrollbar-color: var(--accent) var(--bg-secondary); }
+        body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; background: var(--bg-primary); color: var(--text-primary); line-height: 1.7; overflow-x: hidden; }
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: var(--bg-secondary); }
+        ::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 4px; }
+
+        nav { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; padding: 0 2rem; transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
+        nav.scrolled { background: rgba(10, 10, 15, 0.85); backdrop-filter: blur(20px); border-bottom: 1px solid var(--border); }
+        .nav-container { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; height: 72px; }
+        .nav-logo { font-size: 1.4rem; font-weight: 800; background: var(--gradient-1); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+        .nav-logo span { font-weight: 300; opacity: 0.7; }
+        .nav-links { display: flex; gap: 0.5rem; list-style: none; flex-wrap: wrap; }
+        .nav-links a { color: var(--text-secondary); text-decoration: none; padding: 0.5rem 1rem; border-radius: var(--radius-sm); font-size: 0.85rem; font-weight: 500; transition: all 0.3s ease; position: relative; white-space: nowrap; }
+        .nav-links a:hover, .nav-links a.active { color: var(--text-primary); background: rgba(108, 99, 255, 0.1); }
+        .nav-links a.active::after { content: ''; position: absolute; bottom: 4px; left: 50%; transform: translateX(-50%); width: 20px; height: 2px; background: var(--accent); border-radius: 1px; }
+        .nav-toggle { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 8px; border: none; background: none; }
+        .nav-toggle span { width: 24px; height: 2px; background: var(--text-primary); border-radius: 2px; transition: all 0.3s ease; }
+
+        .hero { min-height: 100vh; display: flex; align-items: center; padding: 6rem 2rem 4rem; position: relative; overflow: hidden; }
+        .hero-bg { position: absolute; inset: 0; z-index: 0; }
+        .hero-bg .orb { position: absolute; border-radius: 50%; filter: blur(80px); opacity: 0.15; animation: float 20s ease-in-out infinite; }
+        .hero-bg .orb-1 { width: 600px; height: 600px; background: var(--accent); top: -200px; right: -100px; }
+        .hero-bg .orb-2 { width: 400px; height: 400px; background: #e863ff; bottom: -100px; left: -100px; animation-delay: -10s; }
+        .hero-bg .orb-3 { width: 300px; height: 300px; background: #63b3ff; top: 50%; left: 50%; animation-delay: -5s; }
+        @keyframes float { 0%, 100% { transform: translate(0, 0) scale(1); } 33% { transform: translate(30px, -30px) scale(1.05); } 66% { transform: translate(-20px, 20px) scale(0.95); } }
+        .hero-grid { position: absolute; inset: 0; background-image: linear-gradient(rgba(108, 99, 255, 0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(108, 99, 255, 0.03) 1px, transparent 1px); background-size: 60px 60px; z-index: 0; }
+        .hero-container { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; position: relative; z-index: 1; width: 100%; }
+        .hero-content { animation: slideUp 1s ease-out; }
+        @keyframes slideUp { from { opacity: 0; transform: translateY(40px); } to { opacity: 1; transform: translateY(0); } }
+        .hero-badge { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.4rem 1rem; background: rgba(108, 99, 255, 0.1); border: 1px solid rgba(108, 99, 255, 0.2); border-radius: 50px; font-size: 0.85rem; color: var(--accent-light); margin-bottom: 1.5rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; }
+        .hero-badge .dot { width: 8px; height: 8px; background: var(--success); border-radius: 50%; animation: pulse 2s ease-in-out infinite; }
+        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+        .hero-title { font-size: clamp(2.5rem, 5vw, 3.5rem); font-weight: 800; line-height: 1.1; margin-bottom: 1.5rem; letter-spacing: -1px; }
+        .hero-title .gradient-text { background: var(--gradient-1); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+        .hero-subtitle { font-size: 1.1rem; color: var(--accent-light); font-weight: 600; margin-bottom: 1rem; }
+        .hero-description { font-size: 1.05rem; color: var(--text-secondary); margin-bottom: 2rem; max-width: 500px; line-height: 1.8; }
+        .hero-actions { display: flex; gap: 1rem; flex-wrap: wrap; }
+        .btn { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.85rem 2rem; border-radius: 50px; font-size: 0.95rem; font-weight: 600; text-decoration: none; cursor: pointer; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); border: none; font-family: inherit; }
+        .btn-primary { background: var(--gradient-1); color: white; box-shadow: 0 4px 20px var(--accent-glow); }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 30px var(--accent-glow); }
+        .btn-secondary { background: transparent; color: var(--text-primary); border: 1px solid var(--border); }
+        .btn-secondary:hover { border-color: var(--accent); background: rgba(108, 99, 255, 0.05); transform: translateY(-2px); }
+        .hero-stats { display: flex; gap: 2.5rem; margin-top: 3rem; padding-top: 2rem; border-top: 1px solid var(--border); flex-wrap: wrap; }
+        .stat-item .stat-number { font-size: 1.8rem; font-weight: 800; background: var(--gradient-2); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+        .stat-item .stat-label { font-size: 0.8rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; margin-top: 0.2rem; }
+        .hero-image { display: flex; justify-content: center; align-items: center; animation: slideUp 1s ease-out 0.3s both; }
+        .hero-image-wrapper { position: relative; width: 420px; height: 420px; }
+        .hero-image-wrapper img { width: 100%; height: 100%; object-fit: cover; border-radius: 30px; position: relative; z-index: 2; }
+        .hero-image-wrapper::before { content: ''; position: absolute; inset: -3px; background: var(--gradient-1); border-radius: 33px; z-index: 1; opacity: 0.6; }
+        .hero-image-wrapper::after { content: ''; position: absolute; inset: 20px; background: var(--gradient-1); border-radius: 30px; z-index: 0; opacity: 0.1; filter: blur(40px); }
+        .floating-card { position: absolute; z-index: 3; background: rgba(26, 26, 46, 0.9); backdrop-filter: blur(10px); border: 1px solid var(--border); border-radius: var(--radius); padding: 0.8rem 1.2rem; display: flex; align-items: center; gap: 0.6rem; font-size: 0.85rem; animation: floatCard 6s ease-in-out infinite; }
+        .floating-card.card-1 { top: 20px; right: -30px; animation-delay: -2s; }
+        .floating-card.card-2 { bottom: 40px; left: -40px; animation-delay: -4s; }
+        .floating-card .card-icon { width: 36px; height: 36px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; }
+        .floating-card .card-icon.purple { background: rgba(108, 99, 255, 0.2); }
+        .floating-card .card-icon.green { background: rgba(74, 222, 128, 0.2); }
+        .floating-card .card-icon.gold { background: rgba(251, 191, 36, 0.2); }
+        @keyframes floatCard { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+
+        section { padding: 6rem 2rem; position: relative; }
+        .section-container { max-width: 1200px; margin: 0 auto; }
+        .section-header { text-align: center; margin-bottom: 4rem; }
+        .section-label { display: inline-flex; align-items: center; gap: 0.5rem; font-size: 0.85rem; font-weight: 600; color: var(--accent-light); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 1rem; }
+        .section-label::before, .section-label::after { content: ''; width: 30px; height: 1px; background: var(--accent); opacity: 0.5; }
+        .section-title { font-size: clamp(2rem, 4vw, 2.8rem); font-weight: 800; letter-spacing: -0.5px; margin-bottom: 1rem; }
+        .section-subtitle { font-size: 1.1rem; color: var(--text-secondary); max-width: 600px; margin: 0 auto; }
+
+        .about { background: var(--bg-secondary); }
+        .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: start; }
+        .about-text h3 { font-size: 1.5rem; font-weight: 700; margin-bottom: 1.5rem; }
+        .about-text p { color: var(--text-secondary); margin-bottom: 1.2rem; font-size: 1rem; }
+        .about-info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; margin-top: 2rem; }
+        .info-item { display: flex; flex-direction: column; gap: 0.3rem; }
+        .info-item .label { font-size: 0.8rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; }
+        .info-item .value { font-size: 0.95rem; font-weight: 600; color: var(--text-primary); }
+        .about-details { display: flex; flex-direction: column; gap: 1.5rem; }
+        .detail-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.8rem; transition: all 0.3s ease; }
+        .detail-card:hover { border-color: var(--accent); transform: translateY(-2px); box-shadow: 0 8px 30px rgba(108, 99, 255, 0.1); }
+        .detail-card .card-header { display: flex; align-items: center; gap: 0.8rem; margin-bottom: 1rem; }
+        .detail-card .card-icon { width: 44px; height: 44px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.3rem; }
+        .detail-card .card-title { font-size: 1rem; font-weight: 700; }
+        .detail-card p { color: var(--text-secondary); font-size: 0.9rem; }
+        .objective-card { background: linear-gradient(135deg, rgba(108,99,255,0.1), rgba(232,99,255,0.1)); border: 1px solid rgba(108, 99, 255, 0.3); border-radius: var(--radius); padding: 1.8rem; text-align: center; }
+        .objective-card h3 { font-size: 1.3rem; background: var(--gradient-1); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; margin-bottom: 0.5rem; }
+
+        .education-timeline { position: relative; max-width: 900px; margin: 0 auto; }
+        .education-timeline::before { content: ''; position: absolute; left: 50%; top: 0; bottom: 0; width: 2px; background: linear-gradient(to bottom, transparent, var(--accent), var(--accent), transparent); transform: translateX(-50%); }
+        .timeline-item { display: flex; justify-content: flex-end; padding-right: calc(50% + 40px); margin-bottom: 3rem; position: relative; }
+        .timeline-item:nth-child(even) { justify-content: flex-start; padding-right: 0; padding-left: calc(50% + 40px); }
+        .timeline-dot { position: absolute; left: 50%; top: 20px; width: 16px; height: 16px; background: var(--accent); border-radius: 50%; transform: translateX(-50%); box-shadow: 0 0 20px var(--accent-glow); z-index: 1; }
+        .timeline-dot::before { content: ''; position: absolute; inset: -4px; border-radius: 50%; border: 2px solid var(--accent); opacity: 0.3; }
+        .timeline-content { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.8rem; max-width: 400px; transition: all 0.3s ease; }
+        .timeline-content:hover { border-color: var(--accent); transform: translateY(-3px); box-shadow: 0 10px 30px rgba(108, 99, 255, 0.1); }
+        .timeline-date { display: inline-block; padding: 0.25rem 0.8rem; background: rgba(108, 99, 255, 0.1); color: var(--accent-light); border-radius: 50px; font-size: 0.8rem; font-weight: 600; margin-bottom: 0.8rem; }
+        .timeline-badge { display: inline-block; padding: 0.2rem 0.6rem; background: rgba(251, 191, 36, 0.1); color: var(--gold); border-radius: 50px; font-size: 0.75rem; font-weight: 600; margin-left: 0.5rem; }
+        .timeline-content h3 { font-size: 1.05rem; font-weight: 700; margin-bottom: 0.3rem; }
+        .timeline-content .school { color: var(--accent-light); font-size: 0.9rem; font-weight: 500; margin-bottom: 0.6rem; }
+        .timeline-content ul { list-style: none; padding: 0; }
+        .timeline-content li { color: var(--text-secondary); font-size: 0.85rem; padding-left: 1.2rem; position: relative; margin-bottom: 0.3rem; }
+        .timeline-content li::before { content: '▹'; position: absolute; left: 0; color: var(--accent); }
+
+        .skills { background: var(--bg-secondary); }
+        .skills-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem; }
+        .skill-category { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 2rem; transition: all 0.3s ease; text-align: center; }
+        .skill-category:hover { border-color: var(--accent); transform: translateY(-3px); }
+        .skill-category-icon { width: 64px; height: 64px; border-radius: 16px; display: flex; align-items: center; justify-content: center; font-size: 1.8rem; margin: 0 auto 1rem; }
+        .skill-category h3 { font-size: 1.1rem; font-weight: 700; margin-bottom: 0.5rem; }
+        .skill-tags { display: flex; flex-wrap: wrap; gap: 0.5rem; justify-content: center; }
+        .skill-tag { padding: 0.4rem 0.9rem; background: rgba(108, 99, 255, 0.08); border: 1px solid rgba(108, 99, 255, 0.15); border-radius: 50px; font-size: 0.85rem; color: var(--text-secondary); transition: all 0.3s ease; }
+        .skill-tag:hover { border-color: var(--accent); color: var(--accent-light); background: rgba(108, 99, 255, 0.15); }
+
+        .experience { background: var(--bg-secondary); }
+        .experience-list { max-width: 900px; margin: 0 auto; display: flex; flex-direction: column; gap: 1.5rem; }
+        .experience-item { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 2rem; display: grid; grid-template-columns: 180px 1fr; gap: 2rem; align-items: start; transition: all 0.3s ease; }
+        .experience-item:hover { border-color: var(--accent); transform: translateX(5px); }
+        .exp-date-badge { padding: 0.4rem 1rem; background: rgba(108, 99, 255, 0.1); border: 1px solid rgba(108, 99, 255, 0.2); border-radius: var(--radius-sm); font-size: 0.8rem; font-weight: 600; color: var(--accent-light); text-align: center; font-family: 'Fira Code', monospace; height: fit-content; }
+        .exp-info h3 { font-size: 1.15rem; font-weight: 700; margin-bottom: 0.2rem; }
+        .exp-info .company { color: var(--accent-light); font-weight: 500; margin-bottom: 0.3rem; }
+        .exp-info .location { color: var(--text-muted); font-size: 0.85rem; margin-bottom: 0.8rem; }
+        .exp-info ul { list-style: none; display: flex; flex-direction: column; gap: 0.4rem; }
+        .exp-info li { color: var(--text-secondary); font-size: 0.9rem; padding-left: 1.2rem; position: relative; }
+        .exp-info li::before { content: '▹'; position: absolute; left: 0; color: var(--accent); }
+
+        .projects-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 2rem; }
+        .project-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 2rem; transition: all 0.3s ease; position: relative; overflow: hidden; }
+        .project-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: var(--gradient-1); }
+        .project-card:hover { border-color: var(--accent); transform: translateY(-5px); box-shadow: 0 20px 40px rgba(108, 99, 255, 0.15); }
+        .project-card .project-icon { font-size: 2.5rem; margin-bottom: 1rem; }
+        .project-card h3 { font-size: 1.2rem; font-weight: 700; margin-bottom: 0.8rem; }
+        .project-card p { color: var(--text-secondary); font-size: 0.9rem; line-height: 1.7; }
+        .project-card .project-tag { display: inline-block; padding: 0.2rem 0.7rem; background: rgba(108, 99, 255, 0.1); border-radius: 50px; font-size: 0.75rem; font-weight: 600; color: var(--accent-light); margin-top: 1rem; font-family: 'Fira Code', monospace; }
+
+        .travel { background: var(--bg-secondary); }
+        .travel-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem; max-width: 900px; margin: 0 auto; }
+        .travel-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.5rem; text-align: center; transition: all 0.3s ease; }
+        .travel-card:hover { border-color: var(--accent); transform: translateY(-3px); }
+        .travel-card .travel-icon { font-size: 2rem; margin-bottom: 0.8rem; }
+        .travel-card h4 { font-size: 0.95rem; font-weight: 600; margin-bottom: 0.3rem; }
+        .travel-card p { font-size: 0.8rem; color: var(--text-muted); }
+        .travel-card.pd-only { border-color: rgba(108, 99, 255, 0.2); }
+        .travel-card.pd-only .travel-badge { display: inline-block; padding: 0.15rem 0.6rem; background: rgba(108, 99, 255, 0.15); color: var(--accent-light); border-radius: 50px; font-size: 0.7rem; font-weight: 600; margin-top: 0.5rem; }
+        .travel-card.travel-only { opacity: 0.75; border-color: rgba(160, 160, 184, 0.15); }
+        .travel-card.travel-only .travel-badge { display: inline-block; padding: 0.15rem 0.6rem; background: rgba(160, 160, 184, 0.15); color: var(--text-secondary); border-radius: 50px; font-size: 0.7rem; font-weight: 600; margin-top: 0.5rem; }
+
+        .gallery { background: var(--bg-secondary); }
+        .gallery-tabs { display: flex; justify-content: center; gap: 1rem; margin-bottom: 3rem; flex-wrap: wrap; }
+        .gallery-tab { padding: 0.7rem 1.5rem; border-radius: 50px; border: 1px solid var(--border); background: transparent; color: var(--text-secondary); font-size: 0.95rem; font-weight: 600; cursor: pointer; transition: all 0.3s ease; font-family: inherit; }
+        .gallery-tab:hover, .gallery-tab.active { background: var(--accent); color: white; border-color: var(--accent); box-shadow: 0 4px 15px var(--accent-glow); }
+        .gallery-content { display: none; }
+        .gallery-content.active { display: block; animation: fadeIn 0.5s ease; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        .gallery-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1.5rem; max-width: 1100px; margin: 0 auto; }
+        .gallery-item { position: relative; border-radius: var(--radius); overflow: hidden; cursor: pointer; transition: all 0.3s ease; }
+        .gallery-item:hover { transform: translateY(-5px); box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4); }
+        .gallery-item img { width: 100%; height: 250px; object-fit: cover; display: block; transition: transform 0.5s ease; }
+        .gallery-item:hover img { transform: scale(1.05); }
+        .gallery-overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(10, 10, 15, 0.8), transparent); opacity: 0; transition: opacity 0.3s ease; display: flex; align-items: flex-end; padding: 1.5rem; }
+        .gallery-item:hover .gallery-overlay { opacity: 1; }
+        .gallery-overlay .overlay-text { color: white; font-size: 0.9rem; font-weight: 500; }
+
+        .lightbox { position: fixed; inset: 0; background: rgba(0, 0, 0, 0.95); z-index: 2000; display: none; align-items: center; justify-content: center; padding: 2rem; }
+        .lightbox.open { display: flex; animation: fadeIn 0.3s ease; }
+        .lightbox img { max-width: 90%; max-height: 90vh; object-fit: contain; border-radius: var(--radius); }
+        .lightbox-close { position: absolute; top: 2rem; right: 2rem; width: 48px; height: 48px; border-radius: 50%; background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.2); color: white; font-size: 1.5rem; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.3s ease; }
+        .lightbox-close:hover { background: var(--accent); }
+
+        .personal-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; max-width: 900px; margin: 0 auto; }
+        .personal-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 2rem; transition: all 0.3s ease; }
+        .personal-card:hover { border-color: var(--accent); transform: translateY(-3px); }
+        .personal-card .personal-icon { font-size: 2rem; margin-bottom: 1rem; }
+        .personal-card h4 { font-size: 1.1rem; font-weight: 700; margin-bottom: 0.8rem; }
+        .personal-card ul { list-style: none; padding: 0; }
+        .personal-card li { color: var(--text-secondary); font-size: 0.9rem; padding-left: 1.5rem; position: relative; margin-bottom: 0.5rem; }
+        .personal-card li::before { content: '✦'; position: absolute; left: 0; color: var(--accent); }
+
+        .contact-wrapper { display: grid; grid-template-columns: 1fr 1.2fr; gap: 3rem; max-width: 1000px; margin: 0 auto; }
+        .contact-info { display: flex; flex-direction: column; gap: 2rem; }
+        .contact-info h3 { font-size: 1.8rem; font-weight: 700; }
+        .contact-info p { color: var(--text-secondary); font-size: 1rem; }
+        .contact-links { display: flex; flex-direction: column; gap: 1rem; }
+        .contact-link-item { display: flex; align-items: center; gap: 1rem; padding: 1rem 1.2rem; background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); text-decoration: none; color: var(--text-primary); transition: all 0.3s ease; }
+        .contact-link-item:hover { border-color: var(--accent); transform: translateX(5px); }
+        .contact-link-icon { width: 44px; height: 44px; border-radius: 12px; background: rgba(108, 99, 255, 0.1); display: flex; align-items: center; justify-content: center; font-size: 1.2rem; }
+        .contact-link-text .link-label { font-size: 0.8rem; color: var(--text-muted); }
+        .contact-link-text .link-value { font-weight: 600; font-size: 0.95rem; }
+        .contact-form { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 2.5rem; }
+        .form-group { margin-bottom: 1.5rem; }
+        .form-group label { display: block; font-size: 0.85rem; font-weight: 600; margin-bottom: 0.5rem; color: var(--text-secondary); }
+        .form-group input, .form-group textarea { width: 100%; padding: 0.9rem 1.2rem; background: var(--bg-primary); border: 1px solid var(--border); border-radius: var(--radius-sm); color: var(--text-primary); font-family: inherit; font-size: 0.95rem; transition: all 0.3s ease; outline: none; }
+        .form-group input:focus, .form-group textarea:focus { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-glow); }
+        .form-group textarea { min-height: 120px; resize: vertical; }
+        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+        .btn-submit { width: 100%; padding: 1rem; background: var(--gradient-1); color: white; border: none; border-radius: var(--radius-sm); font-size: 1rem; font-weight: 700; cursor: pointer; transition: all 0.3s ease; font-family: inherit; }
+        .btn-submit:hover { transform: translateY(-2px); box-shadow: 0 8px 30px var(--accent-glow); }
+        .form-status { text-align: center; margin-top: 1rem; font-size: 0.9rem; display: none; }
+        .form-status.success { display: block; color: var(--success); }
+
+        footer { padding: 3rem 2rem; border-top: 1px solid var(--border); text-align: center; }
+        .footer-content { max-width: 1200px; margin: 0 auto; }
+        .footer-social { display: flex; justify-content: center; gap: 1rem; margin-bottom: 1.5rem; }
+        .social-link { width: 44px; height: 44px; border-radius: 12px; background: var(--bg-card); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; color: var(--text-secondary); text-decoration: none; font-size: 1.1rem; transition: all 0.3s ease; }
+        .social-link:hover { border-color: var(--accent); color: var(--accent-light); transform: translateY(-3px); }
+        .footer-text { color: var(--text-muted); font-size: 0.85rem; }
+        .footer-text a { color: var(--accent-light); text-decoration: none; }
+        .footer-verse { font-style: italic; color: var(--text-muted); font-size: 0.8rem; margin-top: 1rem; padding-top: 1rem; border-top: 1px solid var(--border); }
+
+        .reveal { opacity: 0; transform: translateY(30px); transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1); }
+        .reveal.visible { opacity: 1; transform: translateY(0); }
+
+        @media (max-width: 900px) {
+            .hero-container { grid-template-columns: 1fr; text-align: center; }
+            .hero-description { margin: 0 auto 2rem; }
+            .hero-actions { justify-content: center; }
+            .hero-stats { justify-content: center; }
+            .hero-image { order: -1; }
+            .hero-image-wrapper { width: 300px; height: 300px; }
+            .floating-card { display: none; }
+            .about-grid { grid-template-columns: 1fr; }
+            .education-timeline::before { left: 20px; }
+            .timeline-item, .timeline-item:nth-child(even) { padding-left: 60px; padding-right: 0; justify-content: flex-start; }
+            .timeline-dot { left: 20px; }
+            .timeline-content { max-width: 100%; }
+            .contact-wrapper { grid-template-columns: 1fr; }
+            .experience-item { grid-template-columns: 1fr; }
+            .gallery-grid { grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); }
+        }
+
+        @media (max-width: 600px) {
+            .nav-links { display: none; position: absolute; top: 72px; left: 0; right: 0; background: rgba(10, 10, 15, 0.95); backdrop-filter: blur(20px); flex-direction: column; padding: 1rem; border-bottom: 1px solid var(--border); }
+            .nav-links.open { display: flex; }
+            .nav-toggle { display: flex; }
+            .hero { padding: 5rem 1.2rem 3rem; }
+            section { padding: 4rem 1.2rem; }
+            .form-row { grid-template-columns: 1fr; }
+            .hero-stats { gap: 1.5rem; flex-wrap: wrap; }
+            .about-info-grid { grid-template-columns: 1fr; }
+            .skills-grid { grid-template-columns: 1fr; }
+            .projects-grid { grid-template-columns: 1fr; }
+            .gallery-grid { grid-template-columns: 1fr; }
+            .gallery-tabs { flex-direction: column; align-items: center; }
+        }
+
+        .back-to-top { position: fixed; bottom: 2rem; right: 2rem; width: 48px; height: 48px; border-radius: 50%; background: var(--accent); color: white; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; opacity: 0; visibility: hidden; transform: translateY(20px); transition: all 0.3s ease; z-index: 999; box-shadow: 0 4px 20px var(--accent-glow); }
+        .back-to-top.visible { opacity: 1; visibility: visible; transform: translateY(0); }
+        .back-to-top:hover { transform: translateY(-3px); }
+    </style>
+</head>
+<body>
+
+    <nav id="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">AMD<span>.dev</span></div>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="#hero" class="active">Home</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#education">Education</a></li>
+                <li><a href="#skills">Skills</a></li>
+                <li><a href="#experience">Experience</a></li>
+                <li><a href="#projects">Projects</a></li>
+                <li><a href="#travel">Travel</a></li>
+                <li><a href="#gallery">Gallery</a></li>
+                <li><a href="#personal">Personal</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+            <button class="nav-toggle" id="navToggle" aria-label="Toggle menu"><span></span><span></span><span></span></button>
+        </div>
+    </nav>
+
+    <section class="hero" id="hero">
+        <div class="hero-bg"><div class="orb orb-1"></div><div class="orb orb-2"></div><div class="orb orb-3"></div></div>
+        <div class="hero-grid"></div>
+        <div class="hero-container">
+            <div class="hero-content">
+                <div class="hero-badge"><span class="dot"></span> AVAILABLE FOR BUSINESS OPPORTUNITY</div>
+                <h1 class="hero-title">Hi, I'm <span class="gradient-text">Andrew M. Diggs</span></h1>
+                <div class="hero-subtitle">Ed-Tech Consultant · Christ-Centered Education Officer</div>
+                <p class="hero-description">Over 24 years of expertise spanning EdTech Coordination, Software Development, Network Administration, Web Design, Digital Media Production, and Christ-Centered Education. Currently serving at Edify Liberia with a passion for educational technology and transforming lives through faith and technology.</p>
+                <div class="hero-actions">
+                    <a href="#experience" class="btn btn-primary">View My Experience →</a>
+                    <a href="#contact" class="btn btn-secondary">Get In Touch</a>
+                </div>
+                <div class="hero-stats">
+                    <div class="stat-item"><div class="stat-number">24+</div><div class="stat-label">Years Experience</div></div>
+                    <div class="stat-item"><div class="stat-number">10</div><div class="stat-label">Years at Edify</div></div>
+                    <div class="stat-item"><div class="stat-number">350+</div><div class="stat-label">Computer Labs Built</div></div>
+                    <div class="stat-item"><div class="stat-number">8</div><div class="stat-label">Countries Visited</div></div>
+                </div>
+            </div>
+            <div class="hero-image">
+                <div class="hero-image-wrapper">
+                    <img src="https://scontent.fmlw1-2.fna.fbcdn.net/v/t39.30808-6/704661212_10241895074862958_3987202002084887693_n.jpg?_nc_cat=104&ccb=1-7&_nc_sid=833d8c&_nc_eui2=AeGA6rnMmWcJqPdc_yMvKRcPQpYPD0TJMqFClg8PRMkyodHEIZwqj2EPjrUK9WB3hGU&_nc_ohc=H_OR4V1HrHgQ7kNvwEoL3yT&_nc_oc=Adq-5yYBg43u40Rsgk9b7CLRjhDWI1mZHCDjnwUbDHEjVknKEMYc8jK-Pdzi9B3FQqE&_nc_zt=23&_nc_ht=scontent.fmlw1-2.fna&_nc_gid=rTXWfuzuQ4nH_dInqNLA9w&_nc_ss=7b2a8&oh=00_Af7M67KZwMZvY3WgzNPX5riOEfB2D28RL6ybo691vk7wSw&oe=6A210F72" alt="Andrew M. Diggs - Ed-Tech Consultant">
+                    <div class="floating-card card-1"><div class="card-icon purple">🎓</div><div><div style="font-weight:700">Ed-Tech</div><div style="font-size:0.75rem;color:var(--text-muted)">Consultant</div></div></div>
+                    <div class="floating-card card-2"><div class="card-icon green">✝️</div><div><div style="font-weight:700">Christ-Centered</div><div style="font-size:0.75rem;color:var(--text-muted)">Education Officer</div></div></div>
+                    <div class="floating-card" style="bottom: -20px; right: -20px; animation-delay: -1s;"><div class="card-icon gold">💻</div><div><div style="font-weight:700">350+</div><div style="font-size:0.75rem;color:var(--text-muted)">Labs Built</div></div></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="about" id="about">
+        <div class="section-container">
+            <div class="section-header reveal"><div class="section-label">About Me</div><h2 class="section-title">Professional Biography</h2><p class="section-subtitle">A seasoned professional dedicated to empowering communities through technology, education, and faith.</p></div>
+            <div class="about-grid">
+                <div class="about-text reveal">
+                    <div class="objective-card"><h3>🎯 Professional Mission</h3><p style="color: var(--text-primary); font-weight: 500;">Bringing Value to the Nation Through Educational Technology</p></div>
+                    <p style="margin-top: 2rem;">Mr. Andrew M. Diggs is an Ed-Tech Consultant and currently employed with <strong>Edify Liberia</strong> as a Christ-Centered Education Officer. He has gained more than <strong>24 years of expertise</strong> through a career path that included Ed Tech Coordinator, Software Developer, Network Administrator, Hardware System Maintenance, Web and Graphic Designer, Web Publisher, Software Instructor, Digital Media Producer, Quick Impact Computer Training Director, and Director of IT.</p>
+                    <p>Currently serving as an <strong>Education Technology Integration and Support Officer</strong> at Edify Liberia for over <strong>10 years</strong>, Mr. Diggs's depth and breadth of experience in technology and education has prepared him well for his current passion: <strong>Educational Technology</strong> — the convergence of his two favorite fields.</p>
+                    <p>He has attended numerous professional development conferences and technology training programs across multiple countries including Ghana (Accra), Uganda (Kampala), Rwanda, Nigeria, the Dominican Republic (Santo Domingo), and the United States (San Antonio TX, San Diego, Temecula CA, and Denver CO). A senior student aspiringly pursuing a Bachelor's Degree in Information Technology (BIT) at The Apex University, he holds multiple international and local certifications in Technology and Human Resource Management.</p>
+                    <div class="about-info-grid">
+                        <div class="info-item"><span class="label">Full Name</span><span class="value">Andrew M. Diggs</span></div>
+                        <div class="info-item"><span class="label">Current Role</span><span class="value">Christ-Centered Education Officer</span></div>
+                        <div class="info-item"><span class="label">Employer</span><span class="value">Edify Liberia</span></div>
+                        <div class="info-item"><span class="label">Email</span><span class="value">edenrosecdiggs@gmail.com</span></div>
+                        <div class="info-item"><span class="label">WhatsApp</span><span class="value">+231 777 262 937</span></div>
+                        <div class="info-item"><span class="label">Location</span><span class="value">Monrovia, Liberia</span></div>
+                    </div>
+                </div>
+                <div class="about-details reveal">
+                    <div class="detail-card"><div class="card-header"><div class="card-icon" style="background: rgba(108,99,255,0.15);">🎓</div><div class="card-title">Certified Professional</div></div><p>Holder of N+ and A+ certifications, Human Resource Certificate from GONET Academy, and multiple international and local technology certifications.</p></div>
+                    <div class="detail-card"><div class="card-header"><div class="card-icon" style="background: rgba(74,222,128,0.15);">👩‍🏫</div><div class="card-title">EdTech Integration Expert</div></div><p>Constructed and provides strategic EdTech support for over 350 computer labs in Edify Partner schools across Liberia for the past 8 years.</p></div>
+                    <div class="detail-card"><div class="card-header"><div class="card-icon" style="background: rgba(251,191,36,0.15);">✝️</div><div class="card-title">Christ-Centered Approach</div></div><p>A devoted Christian who integrates faith with technology and education, building projects like Worship Flow Pro for the global Body of Christ.</p></div>
+                    <div class="detail-card"><div class="card-header"><div class="card-icon" style="background: rgba(232,99,255,0.15);">🌍</div><div class="card-title">Global Experience</div></div><p>Attended professional development conferences in 6 countries across Africa, the Americas. Additionally traveled to the Netherlands and Belgium.</p></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="education" id="education">
+        <div class="section-container">
+            <div class="section-header reveal"><div class="section-label">Education & Certifications</div><h2 class="section-title">Academic Journey & Professional Development</h2><p class="section-subtitle">A strong foundation built through continuous learning and international certifications.</p></div>
+            <div class="education-timeline reveal">
+                <div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-content"><span class="timeline-date">Present</span><span class="timeline-badge">In Progress</span><h3>Bachelor's Degree in Information Technology (BIT)</h3><div class="school">The Apex University</div><ul><li>Senior student aspirantly pursuing degree</li><li>Focused on advanced IT and technology integration</li></ul></div></div>
+                <div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-content"><span class="timeline-date">Present</span><h3>Human Resource Certificate</h3><div class="school">GONET Academy</div><ul><li>Professional certification in Human Resource Management</li><li>Leadership and organizational development</li></ul></div></div>
+                <div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-content"><span class="timeline-date">2012</span><h3>Computer Networking (N+) Certification</h3><div class="school">Starz Institute of Technology</div><ul><li>Networking Devices & Media</li><li>Workgroup & Domain Network Connectivity</li><li>Network Installation, Remote Assistance & Desktop</li><li>Troubleshooting, Backup & Wireless</li><li>Basic System Administration</li></ul></div></div>
+                <div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-content"><span class="timeline-date">2010 — 2011</span><h3>CompTIA A+ Certification (Computer Maintenance)</h3><div class="school">Cheale Vocational Training Institute</div><ul><li>Assembling & Disassembling of Computer</li><li>Operating Systems Installation & Upgrades</li><li>System Maintenance, Backup & Computer Diagnostics</li><li>Troubleshooting & PC Optimizing</li><li>Basic Networking</li></ul></div></div>
+                <div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-content"><span class="timeline-date">2004</span><h3>Software Certificate</h3><div class="school">Cheale Vocational Training Institute</div><ul><li>Introduction To Computer System (ICS)</li><li>Microsoft Office Suite</li><li>Computerized Typing</li><li>Corel WordPerfect 8 & Corel Quattro Pro 8</li><li>Internet Navigation</li></ul></div></div>
+            </div>
+        </div>
+    </section>
+
+    <section class="skills" id="skills">
+        <div class="section-container">
+            <div class="section-header reveal"><div class="section-label">Skills</div><h2 class="section-title">Professional Expertise</h2><p class="section-subtitle">A diverse skill set developed over 24+ years across technology, education, and ministry.</p></div>
+            <div class="skills-grid">
+                <div class="skill-category reveal"><div class="skill-category-icon" style="background: rgba(108,99,255,0.15);">🎓</div><h3>EdTech & Education</h3><p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 1rem;">Educational technology integration and Christ-centered education.</p><div class="skill-tags"><span class="skill-tag">EdTech Integration</span><span class="skill-tag">EdTech Support</span><span class="skill-tag">Inquiry-Based Learning</span><span class="skill-tag">Bloom's Taxonomy</span><span class="skill-tag">Phonics Instruction</span><span class="skill-tag">Project Proposal Writing</span></div></div>
+                <div class="skill-category reveal"><div class="skill-category-icon" style="background: rgba(74,222,128,0.15);">💻</div><h3>Software & Development</h3><p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 1rem;">Software development, UI design, and web applications.</p><div class="skill-tags"><span class="skill-tag">Software Development</span><span class="skill-tag">Web Design</span><span class="skill-tag">UI/UX Design</span><span class="skill-tag">Web Publishing</span><span class="skill-tag">HTML/CSS</span><span class="skill-tag">App Development</span></div></div>
+                <div class="skill-category reveal"><div class="skill-category-icon" style="background: rgba(251,191,36,0.15);">🔌</div><h3>Networking & Hardware</h3><p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 1rem;">Network administration and hardware system maintenance.</p><div class="skill-tags"><span class="skill-tag">N+ Certified</span><span class="skill-tag">A+ Certified</span><span class="skill-tag">Network Setup</span><span class="skill-tag">Hardware Maintenance</span><span class="skill-tag">System Diagnostics</span><span class="skill-tag">350+ Lab Setup</span></div></div>
+                <div class="skill-category reveal"><div class="skill-category-icon" style="background: rgba(232,99,255,0.15);">🎨</div><h3>Digital Media & Design</h3><p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 1rem;">Graphic design, desktop publishing, and digital media production.</p><div class="skill-tags"><span class="skill-tag">Graphic Design</span><span class="skill-tag">Desktop Publishing</span><span class="skill-tag">Digital Media Production</span><span class="skill-tag">Video Editing</span><span class="skill-tag">Data Entry</span></div></div>
+                <div class="skill-category reveal"><div class="skill-category-icon" style="background: rgba(99,179,255,0.15);">📋</div><h3>Administration & Leadership</h3><p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 1rem;">Management, training direction, and professional development.</p><div class="skill-tags"><span class="skill-tag">Training Director</span><span class="skill-tag">IT Director</span><span class="skill-tag">M&E Monitoring</span><span class="skill-tag">Tech Plan Review</span><span class="skill-tag">HR Management</span></div></div>
+                <div class="skill-category reveal"><div class="skill-category-icon" style="background: rgba(74,222,128,0.15);">🎤</div><h3>Ministry & Speaking</h3><p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 1rem;">Motivational speaking, worship, and teaching.</p><div class="skill-tags"><span class="skill-tag">Motivational Speaking</span><span class="skill-tag">Worship Technology</span><span class="skill-tag">Teaching Kids</span><span class="skill-tag">Guitar & Keyboard</span><span class="skill-tag">Christ-Centered Ed</span></div></div>
+            </div>
+        </div>
+    </section>
+
+    <section class="experience" id="experience">
+        <div class="section-container">
+            <div class="section-header reveal"><div class="section-label">Experience</div><h2 class="section-title">Professional Journey</h2><p class="section-subtitle">Over 24 years of progressive experience in technology, education, and leadership.</p></div>
+            <div class="experience-list">
+                <div class="experience-item reveal"><div class="exp-date-badge">10+ Years</div><div class="exp-info"><h3>Education Technology Integration & Support Officer</h3><div class="company">Edify Liberia</div><div class="location">Monrovia, Liberia</div><ul><li>Christ-Centered Education Officer integrating technology with faith-based education</li><li>Constructed and provides strategic EdTech support for over 350 Computer Labs in Edify Partner schools</li><li>Edify Computer Lab maintenance for the past 8 years</li><li>Technology Support Monitoring & Evaluation</li><li>Tech Plan review, research, and preparation</li><li>Project Proposal Writing for EdTech initiatives</li><li>Professional Development for EdTech programs</li></ul></div></div>
+                <div class="experience-item reveal"><div class="exp-date-badge">Multiple Roles</div><div class="exp-info"><h3>Ed Tech Coordinator · Software Developer · Network Administrator</h3><div class="company">EJES-Tech Solution Base Technology</div><div class="location">Monrovia, Liberia</div><ul><li>Ed Tech Coordinator managing educational technology initiatives</li><li>Software Development for various applications</li><li>Network Administration and system maintenance</li><li>Hardware System Maintenance</li><li>Web and Graphic Design projects</li><li>Digital Media Production</li></ul></div></div>
+                <div class="experience-item reveal"><div class="exp-date-badge">Jul 2014 — Present</div><div class="exp-info"><h3>Manager / Quick Impact Computer Training Director</h3><div class="company">Eagle Graphic World Inc. (Matadi Cafe)</div><div class="location">Airfield Sinkor, Central New Matadi, Monrovia</div><ul><li>Monitor and manage daily office operations</li><li>Handle data entry and desktop publishing</li><li>Quick Impact Computer Training Director</li><li>File and bind company reports</li><li>Manage internet services for customers</li><li>Procure company stationary materials</li></ul></div></div>
+                <div class="experience-item reveal"><div class="exp-date-badge">2015 — Present</div><div class="exp-info"><h3>Computer Software Instructor</h3><div class="company">Bridge of Hope Jr. High School</div><div class="location">Matadi Dry-Rice Market, Central New Matadi, Monrovia</div><ul><li>Teach computer skills to students from Grade 4th to Grade 8th</li><li>Control and maintain the computer lab</li><li>Advise administration on ICT-related issues</li><li>Carry out additional tasks as administration requires</li></ul></div></div>
+                <div class="experience-item reveal"><div class="exp-date-badge">Sep 2013 — May 2014</div><div class="exp-info"><h3>Administrative Assistant / Network Administrator</h3><div class="company">Emerald Investment & Consult (Former Mea Court)</div><div class="location">Opposite Fish Market, Sinkor, Monrovia</div><ul><li>Monitored and managed office in the manager's absence</li><li>Handled all data entry tasks</li><li>Filed and bonded company reports</li><li>Ensured internet connectivity and functionality</li><li>Procured company stationary materials</li></ul></div></div>
+                <div class="experience-item reveal"><div class="exp-date-badge">2008 — 2010</div><div class="exp-info"><h3>Administrative Secretary / Computer Operator</h3><div class="company">Engineering & Construction Services Inc.</div><div class="location">10th Street Sinkor, Monrovia</div><ul><li>Responsible for installation of all system and application software</li><li>Handled all data entry tasks</li><li>Filed and bonded company reports</li><li>Procured company stationary materials</li></ul></div></div>
+                <div class="experience-item reveal"><div class="exp-date-badge">2006 — 2010</div><div class="exp-info"><h3>Café Admin / Software Instructor / Desktop Publisher</h3><div class="company">Ultimate Computer Solution Inc. & Krubah Internet & Technology Resource Center</div><div class="location">Benson Street & Freeway Somalia Drive, Monrovia</div><ul><li>Administered the internet café</li><li>Monitored internet systems and ensured functionality</li><li>Taught students computer skills</li><li>Responsible for data entry and desktop publishing</li><li>Handled all software-related transactions</li><li>Reported daily to Assistant CEO</li></ul></div></div>
+            </div>
+        </div>
+    </section>
+
+    <section class="projects" id="projects">
+        <div class="section-container">
+            <div class="section-header reveal"><div class="section-label">EdTech Projects</div><h2 class="section-title">Recent Education Technology Projects</h2><p class="section-subtitle">Innovative projects combining technology, education, and faith to transform lives.</p></div>
+            <div class="projects-grid">
+                <div class="project-card reveal"><div class="project-icon">🎵</div><h3>Worship Flow Pro</h3><p>Currently working on a worship UI for media personnel for projecting live services, songs, and more. This project is for the Body of Christ globally to use for church services.</p><span class="project-tag">In Development</span></div>
+                <div class="project-card reveal"><div class="project-icon">🧭</div><h3>Apex Compass</h3><p>An app for freshmen students to use that serves them in understanding their journey from admission to graduation. A comprehensive student orientation and planning tool.</p><span class="project-tag">Education App</span></div>
+                <div class="project-card reveal"><div class="project-icon">📖</div><h3>1001 Stories Project</h3><p>EdTech Students Stories Writing Project. Winners are awarded scholarships: 1 year or half semester. Empowering students through creative writing and technology.</p><span class="project-tag">Scholarship Program</span></div>
+                <div class="project-card reveal"><div class="project-icon">🔤</div><h3>Edify EGR Project</h3><p>Building the foundation of lower elementary kids using Phonics-words construction and stopwatch to develop the reading and spelling skills of young students.</p><span class="project-tag">Phonics Education</span></div>
+                <div class="project-card reveal"><div class="project-icon">⌨️</div><h3>Crane's Typing Project</h3><p>Developing students' touch typing skills in computerized typing through word drill, stories typing, and blind-folding techniques for effective keyboard mastery.</p><span class="project-tag">Touch Typing</span></div>
+                <div class="project-card reveal"><div class="project-icon">😊</div><h3>Edify Smile Project</h3><p>Building students' critical thinking skills through Inquiry-Based Learning using Bloom's Taxonomy. Fostering deeper understanding and analytical thinking in young learners.</p><span class="project-tag">Critical Thinking</span></div>
+            </div>
+        </div>
+    </section>
+
+    <section class="travel" id="travel">
+        <div class="section-container">
+            <div class="section-header reveal"><div class="section-label">Global Experience</div><h2 class="section-title">Professional Development & Travel</h2><p class="section-subtitle">Attended technology training programs and professional development conferences across 6 countries, and traveled to 2 more in Europe.</p></div>
+            <div class="travel-grid reveal">
+                <div class="travel-card pd-only"><div class="travel-icon">🇬🇭</div><h4>Ghana</h4><p>Accra</p><span class="travel-badge">Professional Development</span></div>
+                <div class="travel-card pd-only"><div class="travel-icon">🇺🇬</div><h4>Uganda</h4><p>Kampala</p><span class="travel-badge">Professional Development</span></div>
+                <div class="travel-card pd-only"><div class="travel-icon">🇷🇼</div><h4>Rwanda</h4><p>Professional Development</p><span class="travel-badge">Professional Development</span></div>
+                <div class="travel-card pd-only"><div class="travel-icon">🇳🇬</div><h4>Nigeria</h4><p>Professional Development</p><span class="travel-badge">Professional Development</span></div>
+                <div class="travel-card pd-only"><div class="travel-icon">🇺🇸</div><h4>United States</h4><p>San Antonio TX, San Diego & Temecula CA, Denver CO</p><span class="travel-badge">Professional Development</span></div>
+                <div class="travel-card pd-only"><div class="travel-icon">🇩🇴</div><h4>Dominican Republic</h4><p>Santo Domingo — Latin America</p><span class="travel-badge">Professional Development</span></div>
+                <div class="travel-card travel-only"><div class="travel-icon">🇳🇱</div><h4>Netherlands</h4><p>Europe</p><span class="travel-badge">Travel</span></div>
+                <div class="travel-card travel-only"><div class="travel-icon">🇧🇪</div><h4>Belgium</h4><p>Europe</p><span class="travel-badge">Travel</span></div>
+            </div>
+        </div>
+    </section>
+
+    <section class="gallery" id="gallery">
+        <div class="section-container">
+            <div class="section-header reveal"><div class="section-label">Photo Gallery</div><h2 class="section-title">Moments & Memories</h2><p class="section-subtitle">Capturing moments with workmates, friends, and beloved family.</p></div>
+            <div class="gallery-tabs reveal">
+                <button class="gallery-tab active" onclick="showGallery('workmates')">👥 Workmates & Friends</button>
+                <button class="gallery-tab" onclick="showGallery('family')">👨‍👩‍👧‍👦 Family</button>
+            </div>
+            <div class="gallery-content active" id="gallery-workmates">
+                <div class="gallery-grid">
+                    <div class="gallery-item" onclick="openLightbox(this)"><img src="https://scontent.fmlw1-2.fna.fbcdn.net/v/t1.6435-9/68991814_10219882585484481_8013414921335209984_n.jpg?_nc_cat=110&ccb=1-7&_nc_sid=833d8c&_nc_eui2=AeEFDYclojhihwNNxz-rbGVer69acZ1AKpyvr1pxnUAqnIffsBqwBcGLqddbujSC_nY&_nc_ohc=htKADdWlE3UQ7kNvwFexu3k&_nc_oc=AdpAYPqF9xeXYy8ewk9FZbXbPfbT4aKXVS6SiylQ4NiVnIhTXkyaGKisoved_2vPAQk&_nc_zt=23&_nc_ht=scontent.fmlw1-2.fna&_nc_gid=yEqtyZggRbijDyws4nkTKA&_nc_ss=7b2a8&oh=00_Af-MmiLSDqSqYC5puvDZkb8ZLuuq_LuWQHkcESGKxa799g&oe=6A42C620" alt="With workmates and friends"><div class="gallery-overlay"><span class="overlay-text">With workmates and friends</span></div></div>
+                    <div class="gallery-item" onclick="openLightbox(this)"><img src="https://scontent.fmlw1-2.fna.fbcdn.net/v/t39.30808-6/627640973_10240179800302166_8470764223519633563_n.jpg?_nc_cat=106&ccb=1-7&_nc_sid=833d8c&_nc_eui2=AeF7xUdqIBiqPAlUQkqC6AUVxnYhLpTjbd3GdiEulONt3dmjaSSCU2kixF9NAF8l0nc&_nc_ohc=NDssKXhWD2IQ7kNvwFqb-Cw&_nc_oc=AdrjOBcSkjZKt4SBJ4RayZjWa8_fM_05Frv4ksaTen5NTQ4pO3t7PZ9cp-Z88s1VZ2s&_nc_zt=23&_nc_ht=scontent.fmlw1-2.fna&_nc_gid=3tQ0QmuZtt61ILaoeQrnXw&_nc_ss=7b2a8&oh=00_Af8lsUqVfd0T7PpgJQP5EzxpNhextzu_rDbzHU7YUgoHEg&oe=6A212974" alt="Professional moment"><div class="gallery-overlay"><span class="overlay-text">Professional moment</span></div></div>
+                    <div class="gallery-item" onclick="openLightbox(this)"><img src="https://scontent.fmlw1-2.fna.fbcdn.net/v/t39.30808-6/572889067_10238696092690403_342785014870100391_n.jpg?_nc_cat=103&ccb=1-7&_nc_sid=127cfc&_nc_eui2=AeGmZo5-ogt3aK5GlGgfKQpCWVEE7x6fg6dZUQTvHp-DpzRgYV5xQovVaIMJelDdHHs&_nc_ohc=LYFUM8osLj4Q7kNvwEk4tnk&_nc_oc=AdrZ_JfF6CeYEzsx-Bl7vohJGHP8HbKi64S-N9u0P_fUFmFDtsm-ixd5UHTuIF5gQ1g&_nc_zt=23&_nc_ht=scontent.fmlw1-2.fna&_nc_gid=W5Dr-JpHvgHFbGAu1jx_lQ&_nc_ss=7b2a8&oh=00_Af_GpljmvNZqs1kV6tujYXIo5VJIBscdrR78mVV42wckgw&oe=6A214C41" alt="With colleagues"><div class="gallery-overlay"><span class="overlay-text">With colleagues</span></div></div>
+                </div>
+            </div>
+            <div class="gallery-content" id="gallery-family">
+                <div class="gallery-grid">
+                    <div class="gallery-item" onclick="openLightbox(this)"><img src="https://scontent.fmlw1-2.fna.fbcdn.net/v/t39.30808-6/572889067_10238696092690403_342785014870100391_n.jpg?_nc_cat=103&ccb=1-7&_nc_sid=127cfc&_nc_eui2=AeGmZo5-ogt3aK5GlGgfKQpCWVEE7x6fg6dZUQTvHp-DpzRgYV5xQovVaIMJelDdHHs&_nc_ohc=LYFUM8osLj4Q7kNvwEk4tnk&_nc_oc=AdrZ_JfF6CeYEzsx-Bl7vohJGHP8HbKi64S-N9u0P_fUFmFDtsm-ixd5UHTuIF5gQ1g&_nc_zt=23&_nc_ht=scontent.fmlw1-2.fna&_nc_gid=W5Dr-JpHvgHFbGAu1jx_lQ&_nc_ss=7b2a8&oh=00_Af_GpljmvNZqs1kV6tujYXIo5VJIBscdrR78mVV42wckgw&oe=6A214C41" alt="Family time"><div class="gallery-overlay"><span class="overlay-text">Family time</span></div></div>
+                    <div class="gallery-item" onclick="openLightbox(this)"><img src="https://scontent.fmlw1-2.fna.fbcdn.net/v/t39.30808-6/505084845_10236581354223263_3122364318882188469_n.jpg?_nc_cat=110&ccb=1-7&_nc_sid=833d8c&_nc_eui2=AeFlmaHtg3em5YtYEde2WmA7nliK8l5RwF-eWIryXlHAX676m3ZNeGV7X6e8v1duIvs&_nc_ohc=J3D_bDf1bwMQ7kNvwG_A85b&_nc_oc=AdohLEC4bXzQOi4m01HKqJrhQB_osSMrALeTyS2-Pac_PVg0xpSXEPrsb_hDyKvqmyo&_nc_zt=23&_nc_ht=scontent.fmlw1-2.fna&_nc_gid=OAvED_q4DSBQ8kpL8d-rkQ&_nc_ss=7b2a8&oh=00_Af-vKDd0U541UCPM7YYttpRB6i7Wbfzom0K040_y2Ahd2A&oe=6A215A27" alt="Blessed moments"><div class="gallery-overlay"><span class="overlay-text">Blessed moments</span></div></div>
+                    <div class="gallery-item" onclick="openLightbox(this)"><img src="https://scontent.fmlw1-2.fna.fbcdn.net/v/t39.30808-6/508011191_10236734121922360_1537345323846202626_n.jpg?_nc_cat=101&ccb=1-7&_nc_sid=833d8c&_nc_eui2=AeEMXQ0upPFDiODR3cQRljba3kwDgKk4U1_eTAOAqThTXztwZizUX9u_ZGwEzVWNYBk&_nc_ohc=4l0xnWRGIE0Q7kNvwGexzhm&_nc_oc=AdofEZxB3BKh_sTxqsML1FWoGs1UaIUgNn93eDDVryfxLUnAjrrJFWcT5nW_C7XJxeE&_nc_zt=23&_nc_ht=scontent.fmlw1-2.fna&_nc_gid=b5U_LMFyq0KVWo79vcnMrQ&_nc_ss=7b2a8&oh=00_Af8bj_9rIaKtMUr64bAaHFpYjsYOJXpStndi4_mRS4DGvA&oe=6A214328" alt="Together forever"><div class="gallery-overlay"><span class="overlay-text">Together forever</span></div></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="lightbox" id="lightbox" onclick="closeLightbox()">
+        <button class="lightbox-close" onclick="closeLightbox()">✕</button>
+        <img src="" alt="Gallery Image" id="lightbox-img">
+    </div>
+
+    <section class="personal" id="personal">
+        <div class="section-container">
+            <div class="section-header reveal"><div class="section-label">Personal</div><h2 class="section-title">About Me Personally</h2><p class="section-subtitle">Family, faith, and the hobbies that shape who I am beyond my professional life.</p></div>
+            <div class="personal-grid">
+                <div class="personal-card reveal"><div class="personal-icon">👨‍👩‍👧‍👦</div><h4>Family</h4><p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 0.8rem;">Born unto the union of <strong>Mr. J. Erastus Diggs, Sr.</strong> and <strong>Mrs. Edith Sundaymai Diggs</strong> in Bong Mines, Bong County on <strong>March 24, 1980</strong>.</p><p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 0.8rem;">Married to <strong>Mrs. Princess D. Diggs</strong> on <strong>December 12, 2009</strong> in Monrovia, Liberia. Together for 17 years and counting.</p><p style="color: var(--text-secondary); font-size: 0.9rem;">Blessed with two beautiful children:</p><ul><li><strong>Eden-rose Courage Diggs</strong> — 14 years old</li><li><strong>Rejoice Andrew Diggs</strong> — 6 years old</li></ul></div>
+                <div class="personal-card reveal"><div class="personal-icon">✝️</div><h4>Faith</h4><p style="color: var(--text-secondary); font-size: 0.95rem; margin-bottom: 1rem; font-style: italic;">"Mr. Diggs is a Christian and Loves the Lord Jesus Christ, Our Savior and Redeemer."</p><p style="color: var(--text-secondary); font-size: 0.9rem;">His faith is the foundation of everything he does — from integrating Christ-centered principles in education at Edify Liberia to developing Worship Flow Pro for the global Body of Christ.</p></div>
+                <div class="personal-card reveal"><div class="personal-icon">🎸</div><h4>Hobbies</h4><ul><li>Motivational Speaking to inspire and encourage others</li><li>Singing and playing musical instruments like the guitar and keyboard</li><li>Teaching kids about Jesus to nurture their spiritual growth</li><li>Exploring new technology and educational innovations</li></ul></div>
+            </div>
+        </div>
+    </section>
+
+    <section class="contact" id="contact">
+        <div class="section-container">
+            <div class="section-header reveal"><div class="section-label">Contact</div><h2 class="section-title">Let's Connect</h2><p class="section-subtitle">Have a project in mind, need EdTech support, or want to collaborate? I'd love to hear from you.</p></div>
+            <div class="contact-wrapper reveal">
+                <div class="contact-info">
+                    <div><h3>Get in touch</h3><p>I'm always open to discussing new opportunities, EdTech projects, training programs, consulting, or collaborative ventures.</p></div>
+                    <div class="contact-links">
+                        <a href="mailto:edenrosecdiggs@gmail.com" class="contact-link-item"><div class="contact-link-icon">📧</div><div class="contact-link-text"><div class="link-label">Official Email</div><div class="link-value">edenrosecdiggs@gmail.com</div></div></a>
+                        <a href="https://wa.me/231777262937" target="_blank" rel="noopener noreferrer" class="contact-link-item"><div class="contact-link-icon">💬</div><div class="contact-link-text"><div class="link-label">WhatsApp</div><div class="link-value">+231 777 262 937</div></div></a>
+                        <a href="tel:+231777262937" class="contact-link-item"><div class="contact-link-icon">📱</div><div class="contact-link-text"><div class="link-label">Phone</div><div class="link-value">+231 777 262 937</div></div></a>
+                        <a href="https://lr.linkedin.com/in/andrew-m-diggs-27b614280" target="_blank" rel="noopener noreferrer" class="contact-link-item"><div class="contact-link-icon">💼</div><div class="contact-link-text"><div class="link-label">LinkedIn</div><div class="link-value">linkedin.com/in/andrew-m-diggs</div></div></a>
+                        <a href="#" class="contact-link-item"><div class="contact-link-icon">📍</div><div class="contact-link-text"><div class="link-label">Location</div><div class="link-value">Monrovia, Liberia</div></div></a>
+                    </div>
+                </div>
+                <form class="contact-form" id="contactForm">
+                    <div class="form-row">
+                        <div class="form-group"><label for="name">Your Name</label><input type="text" id="name" placeholder="Your Name" required></div>
+                        <div class="form-group"><label for="email">Your Email</label><input type="email" id="email" placeholder="your@email.com" required></div>
+                    </div>
+                    <div class="form-group"><label for="subject">Subject</label><input type="text" id="subject" placeholder="EdTech / Training / Collaboration"></div>
+                    <div class="form-group"><label for="message">Message</label><textarea id="message" placeholder="Tell me about your project or needs..." required></textarea></div>
+                    <button type="submit" class="btn-submit">Send Message →</button>
+                    <div class="form-status" id="formStatus">✓ Message sent successfully! I'll get back to you soon.</div>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-social">
+                <a href="https://lr.linkedin.com/in/andrew-m-diggs-27b614280" target="_blank" rel="noopener noreferrer" class="social-link" title="LinkedIn">💼</a>
+                <a href="mailto:edenrosecdiggs@gmail.com" class="social-link" title="Email">📧</a>
+                <a href="https://wa.me/231777262937" target="_blank" rel="noopener noreferrer" class="social-link" title="WhatsApp">💬</a>
+                <a href="tel:+231777262937" class="social-link" title="Phone">📱</a>
+            </div>
+            <p class="footer-text">Designed & Built by <a href="#">Andrew M. Diggs</a> · © 2026 All rights reserved.</p>
+            <p class="footer-verse">"For I know the plans I have for you," declares the Lord, "plans to prosper you and not to harm you, plans to give you hope and a future." — Jeremiah 29:11</p>
+        </div>
+    </footer>
+
+    <button class="back-to-top" id="backToTop" aria-label="Back to top">↑</button>
+
+    <script>
+        const navbar = document.getElementById('navbar');
+        const navToggle = document.getElementById('navToggle');
+        const navLinks = document.getElementById('navLinks');
+        const navAnchors = navLinks.querySelectorAll('a');
+
+        navToggle.addEventListener('click', () => { navLinks.classList.toggle('open'); });
+        navAnchors.forEach(anchor => { anchor.addEventListener('click', () => { navLinks.classList.remove('open'); }); });
+
+        const backToTop = document.getElementById('backToTop');
+        const sections = document.querySelectorAll('section');
+
+        function handleScroll() {
+            const scrollY = window.scrollY;
+            if (scrollY > 50) { navbar.classList.add('scrolled'); } else { navbar.classList.remove('scrolled'); }
+            if (scrollY > 500) { backToTop.classList.add('visible'); } else { backToTop.classList.remove('visible'); }
+            let current = '';
+            sections.forEach(section => { const sectionTop = section.offsetTop - 100; if (scrollY >= sectionTop) { current = section.getAttribute('id'); } });
+            navAnchors.forEach(a => { a.classList.remove('active'); if (a.getAttribute('href') === '#' + current) { a.classList.add('active'); } });
+        }
+
+        window.addEventListener('scroll', handleScroll);
+        backToTop.addEventListener('click', () => { window.scrollTo({ top: 0, behavior: 'smooth' }); });
+
+        const revealElements = document.querySelectorAll('.reveal');
+        const revealObserver = new IntersectionObserver((entries) => { entries.forEach(entry => { if (entry.isIntersecting) { entry.target.classList.add('visible'); } }); }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+        revealElements.forEach(el => revealObserver.observe(el));
+
+        const contactForm = document.getElementById('contactForm');
+        const formStatus = document.getElementById('formStatus');
+        contactForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const btn = contactForm.querySelector('.btn-submit');
+            btn.textContent = 'Sending...';
+            btn.disabled = true;
+            setTimeout(() => {
+                formStatus.classList.add('success');
+                btn.textContent = 'Send Message →';
+                btn.disabled = false;
+                contactForm.reset();
+                setTimeout(() => { formStatus.classList.remove('success'); }, 5000);
+            }, 1500);
+        });
+
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) { target.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+            });
+        });
+
+        window.addEventListener('mousemove', (e) => {
+            const orbs = document.querySelectorAll('.orb');
+            const x = e.clientX / window.innerWidth;
+            const y = e.clientY / window.innerHeight;
+            orbs.forEach((orb, i) => { const speed = (i + 1) * 15; orb.style.transform = `translate(${x * speed}px, ${y * speed}px)`; });
+        });
+
+        function showGallery(tab) {
+            document.querySelectorAll('.gallery-tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.gallery-content').forEach(c => c.classList.remove('active'));
+            event.target.classList.add('active');
+            document.getElementById('gallery-' + tab).classList.add('active');
+        }
+
+        function openLightbox(element) {
+            const imgSrc = element.querySelector('img').src;
+            document.getElementById('lightbox-img').src = imgSrc;
+            document.getElementById('lightbox').classList.add('open');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeLightbox() {
+            document.getElementById('lightbox').classList.remove('open');
+            document.body.style.overflow = '';
+        }
+
+        document.addEventListener('keydown', (e) => { if (e.key === 'Escape') { closeLightbox(); } });
+
+        handleScroll();
+    </script>
+</body>
+</html>
+
