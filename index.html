@@ -319,7 +319,7 @@
             </div>
             <div class="hero-image">
                 <div class="hero-image-wrapper">
-                    <img src="https://scontent.fmlw1-2.fna.fbcdn.net/v/t39.30808-6/704661212_10241895074862958_3987202002084887693_n.jpg?_nc_cat=104&ccb=1-7&_nc_sid=833d8c&_nc_eui2=AeGA6rnMmWcJqPdc_yMvKRcPQpYPD0TJMqFClg8PRMkyodHEIZwqj2EPjrUK9WB3hGU&_nc_ohc=H_OR4V1HrHgQ7kNvwEoL3yT&_nc_oc=Adq-5yYBg43u40Rsgk9b7CLRjhDWI1mZHCDjnwUbDHEjVknKEMYc8jK-Pdzi9B3FQqE&_nc_zt=23&_nc_ht=scontent.fmlw1-2.fna&_nc_gid=rTXWfuzuQ4nH_dInqNLA9w&_nc_ss=7b2a8&oh=00_Af7M67KZwMZvY3WgzNPX5riOEfB2D28RL6ybo691vk7wSw&oe=6A210F72" alt="Andrew M. Diggs - Ed-Tech Consultant">
+                    <img id="profilePhoto" src="assets/profile.jpg" alt="Andrew M. Diggs - Ed-Tech Consultant" loading="lazy" decoding="async">
                     <div class="floating-card card-1"><div class="card-icon purple">🎓</div><div><div style="font-weight:700">Ed-Tech</div><div style="font-size:0.75rem;color:var(--text-muted)">Consultant</div></div></div>
                     <div class="floating-card card-2"><div class="card-icon green">✝️</div><div><div style="font-weight:700">Christ-Centered</div><div style="font-size:0.75rem;color:var(--text-muted)">Education Officer</div></div></div>
                     <div class="floating-card" style="bottom: -20px; right: -20px; animation-delay: -1s;"><div class="card-icon gold">💻</div><div><div style="font-weight:700">350+</div><div style="font-size:0.75rem;color:var(--text-muted)">Labs Built</div></div></div>
@@ -327,6 +327,20 @@
             </div>
         </div>
     </section>
+
+    <script>
+        (function(){
+            const img = document.getElementById('profilePhoto');
+            if(!img) return;
+            function setFallback(){
+                const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="420" height="420"><rect width="100%" height="100%" fill="#6c63ff"/><text x="50%" y="54%" font-family="Inter, sans-serif" font-size="80" fill="#fff" text-anchor="middle" dominant-baseline="middle" font-weight="700">AD</text></svg>`;
+                img.src = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svg);
+            }
+            img.addEventListener('error', setFallback);
+            // If image fails to load silently, apply fallback after load check
+            window.addEventListener('load', function(){ if(img.naturalWidth === 0) setFallback(); });
+        })();
+    </script>
 
     <section class="about" id="about">
         <div class="section-container">
